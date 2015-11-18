@@ -1,3 +1,7 @@
+if !exists("g:onedark_nonitalic")
+  let g:onedark_nonitalic = 1
+end
+
 set background=dark
 
 hi clear
@@ -6,7 +10,7 @@ if exists("syntax_on")
   syntax reset
 endif
 
-let colors_name = "onedark"
+let colors_name = "onedark-nonitalic"
 
 if has("gui_running") || &t_Co == 88 || &t_Co == 256
   let s:low_color = 0
@@ -243,7 +247,12 @@ fun! s:X(group, fg, bg, attr, lcfg, lcbg)
     if empty(l:noitalic)
       let l:noitalic = "none"
     endif
-    exec "hi ".a:group." gui=".a:attr." cterm=".l:noitalic
+    if g:onedark_nonitalic
+      let l:attr = l:noitalic
+    else
+      let l:attr = a:attr
+    endif
+    exec "hi ".a:group." gui=".l:attr." cterm=".l:noitalic
   endif
 endfun
 " }}}
